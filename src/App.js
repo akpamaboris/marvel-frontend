@@ -10,6 +10,44 @@ import {
   useHistory,
 } from "react-router-dom";
 
+import Cookies from "js-cookie";
+
+const Favorites = ({ cookie }) => {
+  const localData = localStorage.getItem("favoriteComics");
+  console.log(JSON.parse(localData));
+  const favComics = JSON.parse(localData);
+
+  const localDataCharacters = localStorage.getItem("favoriteCharacters");
+  const favCharacters = JSON.parse(localDataCharacters);
+
+  return (
+    <div>
+      <h1>welcome to Favorites</h1>
+      {favComics
+        ? favComics.map((x, index) => {
+            return (
+              <div key={index}>
+                <h2>{x.title}</h2>
+                <img src={x.image} alt=" fav collection of the user" />
+              </div>
+            );
+          })
+        : null}
+
+      {favCharacters
+        ? favCharacters.map((x, index) => {
+            return (
+              <div key={index}>
+                <h2>{x.title}</h2>
+                <img src={x.image} alt=" fav collection of user character" />
+              </div>
+            );
+          })
+        : null}
+    </div>
+  );
+};
+
 const CardCharacter = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState();
@@ -73,6 +111,8 @@ const MenuBar = () => {
       <Link to="/characters">Characters</Link>
       <br />
       <Link to="/comics">Comics</Link>
+      <br />
+      <Link to="/favorites">Favorites</Link>
     </div>
   );
 };
@@ -87,13 +127,14 @@ const Home = () => {
   );
 };
 
-const Comics = () => {
+const Comics = ({ setCookie, cookies }) => {
   const [data, setData] = useState();
   //some state for react-ReactPaginate
 
   // _--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
+  const [favComics, setFavComics] = useState([]);
 
   const getNextPage = async () => {
     setIsLoading(true);
@@ -135,7 +176,9 @@ const Comics = () => {
         setIsLoading(false);
       });
   }, [currentPage]);
-
+  useEffect(() => {
+    localStorage.setItem("favoriteComics", JSON.stringify(favComics));
+  }, [favComics]);
   return (
     <div>
       {isLoading ? (
@@ -143,7 +186,6 @@ const Comics = () => {
       ) : (
         <div>
           <h1> Marvel App</h1>
-          {console.log(data)}
           {data.map((x, index) => {
             return (
               <div key={x._id}>
@@ -153,6 +195,25 @@ const Comics = () => {
                   alt="visual description of the comics"
                 />
                 <p>{x.description}</p>
+                <div
+                  onClick={() => {
+                    const newMovieObject = {
+                      title: x.title,
+                      image: x.thumbnail.path + "." + x.thumbnail.extension,
+                      id: x._id,
+                      description: x.description,
+                    };
+
+                    let emptyArr = [];
+                    emptyArr = [...favComics];
+
+                    emptyArr.push(newMovieObject);
+                    setFavComics(emptyArr);
+                  }}
+                >
+                  Add to favorites<span>⭐️</span>
+                  {/* {favComics.title ? favComics.title : null} */}
+                </div>
               </div>
             );
           })}
@@ -177,9 +238,10 @@ const Comics = () => {
   );
 };
 
-const Characters = () => {
+const Characters = ({ setCookie }) => {
   const [data, setData] = useState();
   //some state for react-ReactPaginate
+  const [favCharacters, setFavCharacters] = useState([]);
 
   // _--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--
   const [isLoading, setIsLoading] = useState(true);
@@ -232,6 +294,10 @@ const Characters = () => {
       });
   }, [currentPage]);
 
+  useEffect(() => {
+    localStorage.setItem("favoriteCharacters", JSON.stringify(favCharacters));
+  }, [favCharacters]);
+
   return (
     <div>
       {isLoading ? (
@@ -242,16 +308,35 @@ const Characters = () => {
           {console.log(data)}
           {data.map((x, index) => {
             return (
-              <div
-                key={x._id}
-                onClick={() => history.push(`characters${x._id}`)}
-              >
+              <div key={x._id}>
                 <h2>{x.name}</h2>
                 <img
                   src={x.thumbnail.path + "." + x.thumbnail.extension}
                   alt=""
                 />
                 <p>{x.description}</p>
+                <div onClick={() => history.push(`characters${x._id}`)}>
+                  Click for more ✚
+                </div>
+                <div
+                  onClick={() => {
+                    let newObject = {
+                      title: x.name,
+                      image: x.thumbnail.path + "." + x.thumbnail.extension,
+                    };
+                    if (favCharacters.length === 0) {
+                      let emptyArr = [];
+                      emptyArr.push(newObject);
+                      setFavCharacters(emptyArr);
+                    } else {
+                      let emptyArr = [...favCharacters];
+                      emptyArr.push(newObject);
+                      setFavCharacters(emptyArr);
+                    }
+                  }}
+                >
+                  Add to favorites<span>⭐️</span>
+                </div>
               </div>
             );
           })}
@@ -277,15 +362,27 @@ const Characters = () => {
 };
 
 const App = () => {
+  const [cookie, setCookie] = useState(Cookies.get("marvel"));
   return (
     <Router>
       <MenuBar />
       <div>
         <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/characters" component={Characters} />
-          <Route path="/comics" component={Comics} />
-          <Route path="/characters:id" component={CardCharacter} />
+          <Route path="/" exact>
+            <Home />
+          </Route>
+          <Route path="/characters">
+            <Characters setCookie={setCookie} cookies={cookie} />
+          </Route>
+          <Route path="/comics">
+            <Comics setCookie={setCookie} cookies={cookie} />
+          </Route>
+          <Route path="/characters:id">
+            <CardCharacter />
+          </Route>
+          <Route path="/favorites">
+            <Favorites cookies={cookie} setCookie={setCookie} />
+          </Route>
         </Switch>
       </div>
     </Router>
