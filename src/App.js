@@ -39,7 +39,7 @@ const Comics = () => {
     setIsLoading(true);
     setCurrentPage((prevState) => prevState + 1);
     const res = await axios.get(
-      `http://localhost:4000/comics?page=${currentPage + 1}`
+      `https://marvel-backend-z.herokuapp.com/comics?page=${currentPage + 1}`
     );
     const dataReceived = res.data;
     // For displaying Data
@@ -51,7 +51,7 @@ const Comics = () => {
     setIsLoading(true);
     setCurrentPage((prevState) => prevState - 1);
     const res = await axios.get(
-      `http://localhost:4000/comics?page=${currentPage - 1}`
+      `https://marvel-backend-z.herokuapp.com/comics?page=${currentPage - 1}`
     );
     const dataReceived = res.data;
     // For displaying Data
@@ -62,7 +62,7 @@ const Comics = () => {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`http://localhost:4000/comics?page=${currentPage}`)
+      .get(`https://marvel-backend-z.herokuapp.com/comics?page=${currentPage}`)
       .then((response) => {
         const dataReceived = response.data;
         // For displaying Data
@@ -120,7 +120,9 @@ const Characters = () => {
     setIsLoading(true);
     setCurrentPage((prevState) => prevState + 1);
     const res = await axios.get(
-      `http://localhost:4000/characters?page=${currentPage + 1}`
+      `https://marvel-backend-z.herokuapp.com/characters?page=${
+        currentPage + 1
+      }`
     );
     const dataReceived = res.data;
     // For displaying Data
@@ -132,7 +134,9 @@ const Characters = () => {
     setIsLoading(true);
     setCurrentPage((prevState) => prevState - 1);
     const res = await axios.get(
-      `http://localhost:4000/characters?page=${currentPage - 1}`
+      `https://marvel-backend-z.herokuapp.com/characters?page=${
+        currentPage - 1
+      }`
     );
     const dataReceived = res.data;
     // For displaying Data
@@ -143,7 +147,9 @@ const Characters = () => {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`http://localhost:4000/characters?page=${currentPage}`)
+      .get(
+        `https://marvel-backend-z.herokuapp.com/characters?page=${currentPage}`
+      )
       .then((response) => {
         const dataReceived = response.data;
         // For displaying Data
