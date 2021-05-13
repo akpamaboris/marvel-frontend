@@ -135,6 +135,8 @@ const Comics = ({ setCookie, cookies }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
   const [favComics, setFavComics] = useState([]);
+  const [search, setSearch] = useState("");
+  const [dataSearch, setDataSearch] = useState();
 
   const getNextPage = async () => {
     setIsLoading(true);
@@ -185,52 +187,110 @@ const Comics = ({ setCookie, cookies }) => {
         <span>is loading</span>
       ) : (
         <div>
+          <input
+            type="text"
+            onChange={(event) => {
+              setSearch(event.target.value);
+              let newArr = [];
+              for (let x = 0; x < data.length; x++) {
+                // console.log(data[x]);
+                if (
+                  data[x].title.toLowerCase().includes(search.toLowerCase())
+                ) {
+                  newArr.push(data[x]);
+                }
+              }
+              setDataSearch(newArr);
+            }}
+          />
           <h1> Marvel App</h1>
-          {data.map((x, index) => {
-            return (
-              <div key={x._id}>
-                <h2>{x.title}</h2>
-                <img
-                  src={x.thumbnail.path + "." + x.thumbnail.extension}
-                  alt="visual description of the comics"
-                />
-                <p>{x.description}</p>
-                <div
-                  onClick={() => {
-                    const newMovieObject = {
-                      title: x.title,
-                      image: x.thumbnail.path + "." + x.thumbnail.extension,
-                      id: x._id,
-                      description: x.description,
-                    };
+          {search.length > 0 ? (
+            <>
+              {dataSearch.map((x, index) => {
+                return (
+                  <div key={x._id}>
+                    <h2>{x.title}</h2>
+                    <img
+                      src={x.thumbnail.path + "." + x.thumbnail.extension}
+                      alt="visual description of the comics"
+                    />
+                    <p>{x.description}</p>
+                    <div
+                      onClick={() => {
+                        const newMovieObject = {
+                          title: x.title,
+                          image: x.thumbnail.path + "." + x.thumbnail.extension,
+                          id: x._id,
+                          description: x.description,
+                        };
 
-                    let emptyArr = [];
-                    emptyArr = [...favComics];
+                        let emptyArr = [];
+                        emptyArr = [...favComics];
 
-                    emptyArr.push(newMovieObject);
-                    setFavComics(emptyArr);
-                  }}
-                >
-                  Add to favorites<span>⭐️</span>
-                  {/* {favComics.title ? favComics.title : null} */}
-                </div>
-              </div>
-            );
-          })}
-          {currentPage === 0 ? (
-            <button onClick={getPreviousPage} disabled>
-              Previous Page
-            </button>
+                        emptyArr.push(newMovieObject);
+                        setFavComics(emptyArr);
+                      }}
+                    >
+                      Add to favorites<span>⭐️</span>
+                      {/* {favComics.title ? favComics.title : null} */}
+                    </div>
+                  </div>
+                );
+              })}
+            </>
           ) : (
-            <button onClick={getPreviousPage}>Previous Page</button>
+            <>
+              {data.map((x, index) => {
+                return (
+                  <div key={x._id}>
+                    <h2>{x.title}</h2>
+                    <img
+                      src={x.thumbnail.path + "." + x.thumbnail.extension}
+                      alt="visual description of the comics"
+                    />
+                    <p>{x.description}</p>
+                    <div
+                      onClick={() => {
+                        const newMovieObject = {
+                          title: x.title,
+                          image: x.thumbnail.path + "." + x.thumbnail.extension,
+                          id: x._id,
+                          description: x.description,
+                        };
+
+                        let emptyArr = [];
+                        emptyArr = [...favComics];
+
+                        emptyArr.push(newMovieObject);
+                        setFavComics(emptyArr);
+                      }}
+                    >
+                      Add to favorites<span>⭐️</span>
+                      {/* {favComics.title ? favComics.title : null} */}
+                    </div>
+                  </div>
+                );
+              })}
+            </>
           )}
-          {currentPage}
-          {currentPage === 474 ? (
-            <button onClick={getNextPage} disabled>
-              Next Page
-            </button>
-          ) : (
-            <button onClick={getNextPage}>Next Page</button>
+          {search.length > 0 ? null : (
+            <>
+              {currentPage === 0 ? (
+                <button onClick={getPreviousPage} disabled>
+                  Previous Page
+                </button>
+              ) : (
+                <button onClick={getPreviousPage}>Previous Page</button>
+              )}
+              {currentPage}
+              {currentPage === 474 ? (
+                <button onClick={getNextPage} disabled>
+                  Next Page
+                </button>
+              ) : (
+                <button onClick={getNextPage}>Next Page</button>
+              )}
+            </>
           )}
         </div>
       )}
@@ -242,6 +302,8 @@ const Characters = ({ setCookie }) => {
   const [data, setData] = useState();
   //some state for react-ReactPaginate
   const [favCharacters, setFavCharacters] = useState([]);
+  const [search, setSearch] = useState("");
+  const [dataSearch, setDataSearch] = useState();
 
   // _--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--
   const [isLoading, setIsLoading] = useState(true);
@@ -304,56 +366,117 @@ const Characters = ({ setCookie }) => {
         <span>is loading</span>
       ) : (
         <div>
+          <input
+            type="text"
+            onChange={(event) => {
+              setSearch(event.target.value);
+              let newArr = [];
+              for (let x = 0; x < data.length; x++) {
+                // console.log(data[x].name);
+                if (data[x].name.toLowerCase().includes(search.toLowerCase())) {
+                  newArr.push(data[x]);
+                }
+              }
+              setDataSearch(newArr);
+            }}
+          />
           <h1> Marvel App</h1>
           {console.log(data)}
-          {data.map((x, index) => {
-            return (
-              <div key={x._id}>
-                <h2>{x.name}</h2>
-                <img
-                  src={x.thumbnail.path + "." + x.thumbnail.extension}
-                  alt=""
-                />
-                <p>{x.description}</p>
-                <div onClick={() => history.push(`characters${x._id}`)}>
-                  Click for more ✚
-                </div>
-                <div
-                  onClick={() => {
-                    let newObject = {
-                      title: x.name,
-                      image: x.thumbnail.path + "." + x.thumbnail.extension,
-                    };
-                    if (favCharacters.length === 0) {
-                      let emptyArr = [];
-                      emptyArr.push(newObject);
-                      setFavCharacters(emptyArr);
-                    } else {
-                      let emptyArr = [...favCharacters];
-                      emptyArr.push(newObject);
-                      setFavCharacters(emptyArr);
-                    }
-                  }}
-                >
-                  Add to favorites<span>⭐️</span>
-                </div>
-              </div>
-            );
-          })}
-          {currentPage === 0 ? (
-            <button onClick={getPreviousPage} disabled>
-              Previous Page
-            </button>
+
+          {search.length > 0 ? (
+            <>
+              {dataSearch.map((x, index) => {
+                return (
+                  <div key={x._id}>
+                    <h2>{x.name}</h2>
+                    <img
+                      src={x.thumbnail.path + "." + x.thumbnail.extension}
+                      alt=""
+                    />
+                    <p>{x.description}</p>
+                    <div onClick={() => history.push(`characters${x._id}`)}>
+                      Click for more ✚
+                    </div>
+                    <div
+                      onClick={() => {
+                        let newObject = {
+                          title: x.name,
+                          image: x.thumbnail.path + "." + x.thumbnail.extension,
+                        };
+                        if (favCharacters.length === 0) {
+                          let emptyArr = [];
+                          emptyArr.push(newObject);
+                          setFavCharacters(emptyArr);
+                        } else {
+                          let emptyArr = [...favCharacters];
+                          emptyArr.push(newObject);
+                          setFavCharacters(emptyArr);
+                        }
+                      }}
+                    >
+                      Add to favorites<span>⭐️</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </>
           ) : (
-            <button onClick={getPreviousPage}>Previous Page</button>
+            <>
+              {data.map((x, index) => {
+                return (
+                  <div key={x._id}>
+                    <h2>{x.name}</h2>
+                    <img
+                      src={x.thumbnail.path + "." + x.thumbnail.extension}
+                      alt=""
+                    />
+                    <p>{x.description}</p>
+                    <div onClick={() => history.push(`characters${x._id}`)}>
+                      Click for more ✚
+                    </div>
+                    <div
+                      onClick={() => {
+                        let newObject = {
+                          title: x.name,
+                          image: x.thumbnail.path + "." + x.thumbnail.extension,
+                        };
+                        if (favCharacters.length === 0) {
+                          let emptyArr = [];
+                          emptyArr.push(newObject);
+                          setFavCharacters(emptyArr);
+                        } else {
+                          let emptyArr = [...favCharacters];
+                          emptyArr.push(newObject);
+                          setFavCharacters(emptyArr);
+                        }
+                      }}
+                    >
+                      Add to favorites<span>⭐️</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </>
           )}
-          {currentPage}
-          {currentPage === 14 ? (
-            <button onClick={getNextPage} disabled>
-              Next Page
-            </button>
-          ) : (
-            <button onClick={getNextPage}>Next Page</button>
+
+          {search.length > 0 ? null : (
+            <>
+              {currentPage === 0 ? (
+                <button onClick={getPreviousPage} disabled>
+                  Previous Page
+                </button>
+              ) : (
+                <button onClick={getPreviousPage}>Previous Page</button>
+              )}
+              {currentPage}
+              {currentPage === 14 ? (
+                <button onClick={getNextPage} disabled>
+                  Next Page
+                </button>
+              ) : (
+                <button onClick={getNextPage}>Next Page</button>
+              )}
+            </>
           )}
         </div>
       )}
