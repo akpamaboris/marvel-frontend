@@ -1,7 +1,69 @@
 import "./App.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Switch,
+  useParams,
+  useHistory,
+} from "react-router-dom";
+
+const CardCharacter = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState();
+  let { id } = useParams();
+
+  useEffect(() => {
+    axios
+      .get(
+        // `http://localhost:4000/characters/${id}`
+        `https://marvel-backend-z.herokuapp.com/characters/${id}`
+      )
+      .then((response) => {
+        setData(response.data);
+        setIsLoading(false);
+      });
+  }, [id]);
+
+  return (
+    <div>
+      {isLoading ? (
+        <h1> data is loadloading ... </h1>
+      ) : (
+        <>
+          <h2>More information about what you ask</h2>
+          {data.name}
+          <img
+            src={data.thumbnail.path + "." + data.thumbnail.extension}
+            alt="comic visual detail"
+          />
+
+          {data.comics.map((x, index) => {
+            return (
+              <div key={x._id}>
+                <h3>Title</h3> : {x.title}
+                {x.description ? (
+                  <div>
+                    <h3>description </h3> : {x.description}
+                  </div>
+                ) : null}
+                <h3>Thumbnail :</h3>
+                <img
+                  src={x.thumbnail.path + "." + x.thumbnail.extension}
+                  alt=""
+                />
+              </div>
+            );
+          })}
+
+          {console.log(data)}
+        </>
+      )}
+    </div>
+  );
+};
 
 const MenuBar = () => {
   return (
@@ -20,9 +82,7 @@ const Home = () => {
     <div>
       <h1>Welcome to my App</h1>
       <br />
-      <Link Link to="/characters">
-        Click here to access the characters
-      </Link>
+      <Link to="/characters">Click here to access the characters</Link>
     </div>
   );
 };
@@ -40,6 +100,7 @@ const Comics = () => {
     setCurrentPage((prevState) => prevState + 1);
     const res = await axios.get(
       `https://marvel-backend-z.herokuapp.com/comics?page=${currentPage + 1}`
+      // `http://localhost:4000/comics?page=${currentPage + 1}`
     );
     const dataReceived = res.data;
     // For displaying Data
@@ -52,6 +113,7 @@ const Comics = () => {
     setCurrentPage((prevState) => prevState - 1);
     const res = await axios.get(
       `https://marvel-backend-z.herokuapp.com/comics?page=${currentPage - 1}`
+      // `http://localhost:4000/comics?page=${currentPage - 1}`
     );
     const dataReceived = res.data;
     // For displaying Data
@@ -62,7 +124,10 @@ const Comics = () => {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`https://marvel-backend-z.herokuapp.com/comics?page=${currentPage}`)
+      .get(
+        `https://marvel-backend-z.herokuapp.com/comics?page=${currentPage}`
+        // `http://localhost:4000/comics?page=${currentPage}`
+      )
       .then((response) => {
         const dataReceived = response.data;
         // For displaying Data
@@ -81,9 +146,13 @@ const Comics = () => {
           {console.log(data)}
           {data.map((x, index) => {
             return (
-              <div>
-                <h1>Titre</h1>
-                {x.title}
+              <div key={x._id}>
+                <h2>{x.title}</h2>
+                <img
+                  src={x.thumbnail.path + "." + x.thumbnail.extension}
+                  alt="visual description of the comics"
+                />
+                <p>{x.description}</p>
               </div>
             );
           })}
@@ -115,6 +184,7 @@ const Characters = () => {
   // _--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
+  let history = useHistory();
 
   const getNextPage = async () => {
     setIsLoading(true);
@@ -123,6 +193,8 @@ const Characters = () => {
       `https://marvel-backend-z.herokuapp.com/characters?page=${
         currentPage + 1
       }`
+
+      // `http://localhost:4000/characters?page=${currentPage + 1}`
     );
     const dataReceived = res.data;
     // For displaying Data
@@ -137,6 +209,7 @@ const Characters = () => {
       `https://marvel-backend-z.herokuapp.com/characters?page=${
         currentPage - 1
       }`
+      // `http://localhost:4000/characters?page=${currentPage - 1}`
     );
     const dataReceived = res.data;
     // For displaying Data
@@ -149,6 +222,7 @@ const Characters = () => {
     axios
       .get(
         `https://marvel-backend-z.herokuapp.com/characters?page=${currentPage}`
+        // `http://localhost:4000/characters?page=${currentPage}`
       )
       .then((response) => {
         const dataReceived = response.data;
@@ -168,9 +242,16 @@ const Characters = () => {
           {console.log(data)}
           {data.map((x, index) => {
             return (
-              <div>
-                <h1>Name</h1>
-                {x.name}
+              <div
+                key={x._id}
+                onClick={() => history.push(`characters${x._id}`)}
+              >
+                <h2>{x.name}</h2>
+                <img
+                  src={x.thumbnail.path + "." + x.thumbnail.extension}
+                  alt=""
+                />
+                <p>{x.description}</p>
               </div>
             );
           })}
@@ -204,6 +285,7 @@ const App = () => {
           <Route path="/" exact component={Home} />
           <Route path="/characters" component={Characters} />
           <Route path="/comics" component={Comics} />
+          <Route path="/characters:id" component={CardCharacter} />
         </Switch>
       </div>
     </Router>
