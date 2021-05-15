@@ -10,6 +10,10 @@ const MenuBar = () => {
       <Link to="/comics">Comics</Link>
       <br />
       <Link to="/favorites">Favorites</Link>
+      <br />
+      <Link to="/register">Register</Link>
+      <br />
+      <Link to="/login">Login</Link>
     </div>
   );
 };

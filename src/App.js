@@ -8,14 +8,8 @@ import Favorites from "./Components/Favorites";
 import MenuBar from "./Components/MenuBar";
 import Home from "./Components/Home";
 import CardCharacter from "./Components/CardCaracter";
-
-const Login = () => {
-  return (
-    <div>
-      <h1>Login Form</h1>
-    </div>
-  );
-};
+import Register from "./Components/Register";
+import Login from "./Components/Login";
 
 const App = () => {
   return (
@@ -40,6 +34,9 @@ const App = () => {
           </Route>
           <Route path="/login">
             <Login />
+          </Route>
+          <Route path="/register">
+            <Register />
           </Route>
         </Switch>
       </div>
