@@ -13,7 +13,6 @@ const Favorites = () => {
         ? favComics.map((x, index) => {
             return (
               <div key={index}>
-                {console.log(favComics)}
                 <h2>{x.title}</h2>
                 <img src={x.image} alt=" fav collection of the user" />
               </div>
