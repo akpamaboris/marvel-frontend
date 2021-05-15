@@ -25,32 +25,31 @@ const CardCharacter = () => {
         <h1> data is loadloading ... </h1>
       ) : (
         <>
-          <h2>More information about what you ask</h2>
-          {data.name}
-          <img
-            src={data.thumbnail.path + "." + data.thumbnail.extension}
-            alt="comic visual detail"
-          />
+          <div className="moreInfoCharacter">
+            {data.name}
+            <img
+              src={data.thumbnail.path + "." + data.thumbnail.extension}
+              alt="comic visual detail"
+            />
 
-          {data.comics.map((x, index) => {
-            return (
-              <div key={x._id}>
-                <h3>Title</h3> : {x.title}
-                {x.description ? (
-                  <div>
-                    <h3>description </h3> : {x.description}
-                  </div>
-                ) : null}
-                <h3>Thumbnail :</h3>
-                <img
-                  src={x.thumbnail.path + "." + x.thumbnail.extension}
-                  alt=""
-                />
-              </div>
-            );
-          })}
-
-          {console.log(data)}
+            {data.comics.map((x, index) => {
+              return (
+                <div key={x._id} className="individualMoreInfoCard">
+                  <h3>Title :</h3> {x.title}
+                  {x.description ? (
+                    <div>
+                      <h3>Description :</h3> {x.description}
+                    </div>
+                  ) : null}
+                  <h3>Thumbnail :</h3>
+                  <img
+                    src={x.thumbnail.path + "." + x.thumbnail.extension}
+                    alt=""
+                  />
+                </div>
+              );
+            })}
+          </div>
         </>
       )}
     </div>

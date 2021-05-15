@@ -88,6 +88,7 @@ const Comics = () => {
       ) : (
         <div>
           <input
+            className="searchInputCharacter"
             type="text"
             placeholder="Type to search "
             value={search}
@@ -109,8 +110,7 @@ const Comics = () => {
             }}
           />
           {searchState && dataSearch ? (
-            <div>
-              <h2>Ready to search</h2>
+            <div className="suggestionSearchInputCharacter">
               {dataSearch.map((x, index) => {
                 return (
                   <div
@@ -126,24 +126,24 @@ const Comics = () => {
           ) : (
             <>
               <br />
-              <span>
+              <span className="suggestionSearchInputCharacter">
                 Une fois ta recherche lancée, Clique dans la barre de recherche
                 pour afficher / Cacher les suggestions
               </span>
             </>
           )}
-          <h1> Marvel App</h1>
+          <h1 className="titleCharacters"> Marvel App</h1>
           {search.length > 0 ? (
             <>
               {dataSearch.map((x, index) => {
                 return (
-                  <div key={x._id}>
-                    <h2>{x.title}</h2>
+                  <div key={x._id} className="characterPagePresent">
+                    <h2 className="titleCharacter">{x.title}</h2>
                     <img
                       src={x.thumbnail.path + "." + x.thumbnail.extension}
                       alt="visual description of the comics"
                     />
-                    <p>{x.description}</p>
+                    <p className="titleCharacter">{x.description}</p>
                     <div
                       onClick={() => {
                         const newMovieObject = {
@@ -160,8 +160,9 @@ const Comics = () => {
                         setFavComics(emptyArr);
                       }}
                     >
-                      Add to favorites<span>⭐️</span>
-                      {/* {favComics.title ? favComics.title : null} */}
+                      <span className="titleCharacter">
+                        Add to favorites<span>⭐️</span>
+                      </span>
                     </div>
                   </div>
                 );
@@ -171,13 +172,13 @@ const Comics = () => {
             <>
               {data.map((x, index) => {
                 return (
-                  <div key={x._id}>
-                    <h2>{x.title}</h2>
+                  <div key={x._id} className="characterPagePresent">
+                    <h2 className="titleCharacter">{x.title}</h2>
                     <img
                       src={x.thumbnail.path + "." + x.thumbnail.extension}
                       alt="visual description of the comics"
                     />
-                    <p>{x.description}</p>
+                    <p className="titleCharacter">{x.description}</p>
                     <div
                       onClick={() => {
                         const newMovieObject = {
@@ -194,8 +195,9 @@ const Comics = () => {
                         setFavComics(emptyArr);
                       }}
                     >
-                      Add to favorites<span>⭐️</span>
-                      {/* {favComics.title ? favComics.title : null} */}
+                      <span className="titleCharacter">
+                        Add to favorites<span>⭐️</span>
+                      </span>
                     </div>
                   </div>
                 );

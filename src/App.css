@@ -1,38 +1,228 @@
-.App {
+/*--- Font Face ---*/
+
+body {
+  background: #9999ff;
+  background: linear-gradient(#9999ff, #000099);
+}
+
+@font-face {
+  font-family: "kgHappy";
+  src: local("kgHappy"), url("./font/KGHAPPY.ttf");
+}
+@font-face {
+  font-family: "OpenSans";
+  font-style: normal;
+  font-weight: 300;
+  src: url(https://fonts.gstatic.com/s/opensans/v18/mem5YaGs126MiZpBA-UN_r8OUuhs.ttf)
+    format("truetype");
+}
+
+/*--- Font Face ---*/
+
+/* For home */
+
+.homeTitle {
+  font-family: kgHappy;
+  font-size: 90px;
   text-align: center;
+  text-shadow: 0.0125em 0 0 #222, 0 0.0125em 0 #222, -0.025em 0 #222;
+  color: #6e9db8;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* the grid */
+.grid-1 {
+  display: grid;
+  width: 100%;
+  max-width: 770px;
+  margin: 10% auto;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 200px 200px auto 200px 200px 200px auto 200px 200px auto;
+  grid-gap: 25px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+/* panels */
+.panel {
   color: white;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  box-shadow: 0 0px 0px 5px #251b19;
 }
 
-.App-link {
-  color: #61dafb;
+/* individual panels */
+.panel-title {
+  box-shadow: none;
+}
+.panel-1 {
+  background-image: url(https://www.lecomicbookstore.com/2822/empyre-tome-1.jpg);
+  box-shadow: none;
+}
+.panel-2 {
+  background-image: url(https://h3f6a6h4.rocketcdn.me/wp-content/uploads/2020/03/dc-marvel-crossover-is-coming.jpg);
+}
+.panel-3 {
+  box-shadow: none;
+}
+.panel-4 {
+  background-image: url(https://www.lecomicbookstore.com/2498/x-menfantastic-4.jpg);
+}
+.panel-5 {
+  background-image: url(https://www.games-geeks.fr/wp-content/uploads/2020/10/marvelvsaliencaptainmarvel25jamiemckelvie1242009-674x1024.jpeg);
+}
+.panel-6 {
+  background-image: url(https://www.disneyphile.fr/wp-content/uploads/2021/03/marvel-comicsamerica-chavez.jpg);
+}
+.panel-7 {
+  box-shadow: none;
+}
+.panel-8 {
+  background-image: url(https://linfotoutcourt.com/wp-content/uploads/2018/11/Stan-Lee-co-cr%C3%A9ateur-des-super-h%C3%A9ros-Marvel-Comics-est-d%C3%A9c%C3%A9d%C3%A9.jpg);
+}
+.panel-9 {
+  background-image: url(https://fandomwire.com/wp-content/uploads/2021/05/Lokis-10-Best-Storylines-In-The-Marvel-Comics-1-758x426.jpg);
+  box-shadow: none;
+}
+.panel-copyright {
+  box-shadow: none;
+  font-size: 0.75em;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* media query 1 */
+@media only screen and (min-width: 400px) {
+  .grid-1 {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto 200px auto 200px 200px auto 200px auto;
   }
-  to {
-    transform: rotate(360deg);
+  .panel-title,
+  .panel-3,
+  .panel-6,
+  .panel-7,
+  .panel-copyright {
+    grid-column: span 2;
   }
+  .panel-copyright {
+    text-align: right;
+  }
+  .panel-7 {
+    text-align: center;
+  }
+  h1 {
+    font-size: 3em;
+  }
+}
+
+/*  ____ ---- ___ oooOOOOooooOOOOooooOOOO  ____ ---- ___ */
+
+/* For menu Bar */
+
+.menuBar {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 30px;
+  font-family: kgHappy;
+  margin-top: 10px;
+}
+
+/*  ____ ---- ___ oooOOOOooooOOOOooooOOOO  ____ ---- ___ */
+
+/* Character page */
+
+.searchInputCharacter {
+  display: block;
+  margin: 0 auto;
+}
+.suggestionSearchInputCharacter {
+  display: block;
+  margin: 0 auto;
+  width: 50%;
+  font-family: kgHappy;
+  color: #191919;
+}
+
+.titleCharacters {
+  font-family: kgHappy;
+  font-size: 90px;
+  text-align: center;
+  text-shadow: 0.0125em 0 0 #222, 0 0.0125em 0 #222, -0.025em 0 #222;
+  color: #6e9db8;
+}
+.characterPagePresent {
+  width: 40%;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid white;
+  margin-bottom: 20px;
+}
+
+.characterPagePresent img {
+  width: 350px;
+  transform-style: preserve-3d;
+  transition: all 0.5s;
+  animation: pulse 5s infinite;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
+  display: block;
+  margin: 0 auto;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.98);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 30px rgba(0, 0, 0, 0);
+  }
+
+  100% {
+    transform: scale(0.98);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+}
+.characterPagePresent img:hover {
+  transform: rotateY(30deg);
+  transform-origin: bottom;
+  filter: hue-rotate(180deg);
+}
+
+.titleCharacter {
+  padding: 20px;
+  width: 50%;
+  text-align: center;
+  font-family: kgHappy;
+  display: block;
+  margin: 0 auto;
+}
+
+/*  ____ ---- ___ oooOOOOooooOOOOooooOOOO  ____ ---- ___ */
+
+/* Character card page */
+.moreInfoCharacter {
+  text-align: center;
+  width: 80%;
+  padding: 30px;
+  margin: 50px;
+  font-family: kgHappy;
+}
+
+.moreInfoCharacter img {
+  width: 250px;
+  transform-style: preserve-3d;
+  transition: all 0.5s;
+  animation: pulse 5s infinite;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
+  display: block;
+  margin: 0 auto;
+}
+
+.individualMoreInfoCard {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 80px;
+  border: 1px solid white;
+}
+.individualMoreInfoCard h3 {
+  padding: 20px;
 }

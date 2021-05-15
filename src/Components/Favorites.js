@@ -8,12 +8,12 @@ const Favorites = () => {
 
   return (
     <div>
-      <h1>welcome to Favorites</h1>
+      <h1 className="titleCharacters">welcome to Favorites</h1>
       {favComics
         ? favComics.map((x, index) => {
             return (
-              <div key={index}>
-                <h2>{x.title}</h2>
+              <div key={index} className="characterPagePresent">
+                <h2 className="titleCharacter">{x.title}</h2>
                 <img src={x.image} alt=" fav collection of the user" />
               </div>
             );
@@ -23,8 +23,8 @@ const Favorites = () => {
       {favCharacters
         ? favCharacters.map((x, index) => {
             return (
-              <div key={index}>
-                <h2>{x.title}</h2>
+              <div key={index} className="characterPagePresent">
+                <h2 className="titleCharacter">{x.title}</h2>
                 <img src={x.image} alt=" fav collection of user character" />
               </div>
             );

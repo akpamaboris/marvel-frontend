@@ -99,6 +99,7 @@ const Characters = () => {
       ) : (
         <div>
           <input
+            className="searchInputCharacter"
             placeholder="type to search"
             type="text"
             value={search}
@@ -117,8 +118,7 @@ const Characters = () => {
             }}
           />
           {searchState && dataSearch ? (
-            <div>
-              <h2>Ready to search</h2>
+            <div className="suggestionSearchInputCharacter">
               {dataSearch.map((x, index) => {
                 return (
                   <div
@@ -134,27 +134,27 @@ const Characters = () => {
           ) : (
             <>
               <br />
-              <span>
+              <span className="suggestionSearchInputCharacter">
                 Une fois ta recherche lancée, Clique dans la barre de recherche
                 pour afficher / Cacher les suggestions
               </span>
             </>
           )}
-          <h1> Marvel App</h1>
+          <h1 className="titleCharacters"> Marvel App</h1>
 
           {search.length > 0 ? (
             <>
               {dataSearch.map((x, index) => {
                 return (
-                  <div key={x._id}>
-                    <h2>{x.name}</h2>
+                  <div key={x._id} className="characterPagePresent">
+                    <h2 className="titleCharacter">{x.name}</h2>
                     <img
                       src={x.thumbnail.path + "." + x.thumbnail.extension}
                       alt=""
                     />
-                    <p>{x.description}</p>
+                    <p className="titleCharacter">{x.description}</p>
                     <div onClick={() => history.push(`characters${x._id}`)}>
-                      Click for more ✚
+                      <span className="titleCharacter">Click for more ✚</span>
                     </div>
                     <div
                       onClick={() => {
@@ -173,7 +173,9 @@ const Characters = () => {
                         }
                       }}
                     >
-                      Add to favorites<span>⭐️</span>
+                      <span className="titleCharacter">
+                        Add to favorites<span>⭐️</span>
+                      </span>
                     </div>
                   </div>
                 );
@@ -183,15 +185,15 @@ const Characters = () => {
             <>
               {data.map((x, index) => {
                 return (
-                  <div key={x._id}>
-                    <h2>{x.name}</h2>
+                  <div key={x._id} className="characterPagePresent">
+                    <h2 className="titleCharacter">{x.name}</h2>
                     <img
                       src={x.thumbnail.path + "." + x.thumbnail.extension}
                       alt=""
                     />
-                    <p>{x.description}</p>
+                    <p className="titleCharacter">{x.description}</p>
                     <div onClick={() => history.push(`characters${x._id}`)}>
-                      Click for more ✚
+                      <span className="titleCharacter">Click for more ✚</span>
                     </div>
                     <div
                       onClick={() => {
@@ -210,7 +212,9 @@ const Characters = () => {
                         }
                       }}
                     >
-                      Add to favorites<span>⭐️</span>
+                      <span className="titleCharacter">
+                        Add to favorites<span>⭐️</span>
+                      </span>
                     </div>
                   </div>
                 );
