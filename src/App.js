@@ -9,6 +9,14 @@ import MenuBar from "./Components/MenuBar";
 import Home from "./Components/Home";
 import CardCharacter from "./Components/CardCaracter";
 
+const Login = () => {
+  return (
+    <div>
+      <h1>Login Form</h1>
+    </div>
+  );
+};
+
 const App = () => {
   return (
     <Router>
@@ -29,6 +37,9 @@ const App = () => {
           </Route>
           <Route path="/favorites">
             <Favorites />
+          </Route>
+          <Route path="/login">
+            <Login />
           </Route>
         </Switch>
       </div>
