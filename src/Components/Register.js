@@ -12,7 +12,7 @@ const Register = () => {
           e.preventDefault();
           try {
             axios
-              .post("http://localhost:4000/register", {
+              .post("https://marvel-backend-z.herokuapp.com/register", {
                 email: email,
                 password: password,
               })

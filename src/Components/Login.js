@@ -15,7 +15,7 @@ const Login = () => {
           e.preventDefault();
           try {
             axios
-              .post("http://localhost:4000/login", {
+              .post("https://marvel-backend-z.herokuapp.com/login", {
                 email: email,
                 password: password,
               })
