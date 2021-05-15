@@ -1,0 +1,225 @@
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
+
+const Characters = ({ setCookie }) => {
+  const [data, setData] = useState();
+  //some state for react-ReactPaginate
+  const [favCharacters, setFavCharacters] = useState([]);
+  const [search, setSearch] = useState("");
+  const [dataSearch, setDataSearch] = useState();
+
+  // _--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--
+  const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(0);
+  let history = useHistory();
+
+  // _--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--
+  //auto search
+  // _--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--
+  const [searchState, setSearchState] = useState(false);
+
+  const getNextPage = async () => {
+    setIsLoading(true);
+    setCurrentPage((prevState) => prevState + 1);
+    const res = await axios.get(
+      `https://marvel-backend-z.herokuapp.com/characters?page=${
+        currentPage + 1
+      }`
+
+      // `http://localhost:4000/characters?page=${currentPage + 1}`
+    );
+    const dataReceived = res.data;
+    // For displaying Data
+    setData(dataReceived);
+    setIsLoading(false);
+  };
+
+  const getPreviousPage = async () => {
+    setIsLoading(true);
+    setCurrentPage((prevState) => prevState - 1);
+    const res = await axios.get(
+      `https://marvel-backend-z.herokuapp.com/characters?page=${
+        currentPage - 1
+      }`
+      // `http://localhost:4000/characters?page=${currentPage - 1}`
+    );
+    const dataReceived = res.data;
+    // For displaying Data
+    setData(dataReceived);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    setIsLoading(true);
+    axios
+      .get(
+        `https://marvel-backend-z.herokuapp.com/characters?page=${currentPage}`
+        // `http://localhost:4000/characters?page=${currentPage}`
+      )
+      .then((response) => {
+        const dataReceived = response.data;
+        // For displaying Data
+        setData(dataReceived);
+        setIsLoading(false);
+      });
+  }, [currentPage]);
+
+  useEffect(() => {
+    localStorage.setItem("favoriteCharacters", JSON.stringify(favCharacters));
+  }, [favCharacters]);
+
+  return (
+    <div>
+      {isLoading ? (
+        <span>is loading</span>
+      ) : (
+        <div>
+          <input
+            placeholder="type to search"
+            type="text"
+            value={search}
+            onChange={(event) => {
+              setSearch(event.target.value);
+              let newArr = [];
+              for (let x = 0; x < data.length; x++) {
+                // console.log(data[x].name);
+                if (data[x].name.toLowerCase().includes(search.toLowerCase())) {
+                  newArr.push(data[x]);
+                }
+              }
+              setDataSearch(newArr);
+            }}
+            onClick={() => {
+              setSearchState(!searchState);
+            }}
+          />
+          {searchState && dataSearch ? (
+            <div>
+              <h2>Ready to search</h2>
+              {dataSearch.map((x, index) => {
+                return (
+                  <div
+                    onClick={() => {
+                      setSearch(x.name);
+                    }}
+                  >
+                    {x.name}
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <>
+              <br />
+              <span>
+                Une fois ta recherche lancée, Clique dans la barre de recherche
+                pour afficher / Cacher les suggestions
+              </span>
+            </>
+          )}
+          <h1> Marvel App</h1>
+          {console.log(data)}
+
+          {search.length > 0 ? (
+            <>
+              {dataSearch.map((x, index) => {
+                return (
+                  <div key={x._id}>
+                    <h2>{x.name}</h2>
+                    <img
+                      src={x.thumbnail.path + "." + x.thumbnail.extension}
+                      alt=""
+                    />
+                    <p>{x.description}</p>
+                    <div onClick={() => history.push(`characters${x._id}`)}>
+                      Click for more ✚
+                    </div>
+                    <div
+                      onClick={() => {
+                        let newObject = {
+                          title: x.name,
+                          image: x.thumbnail.path + "." + x.thumbnail.extension,
+                        };
+                        if (favCharacters.length === 0) {
+                          let emptyArr = [];
+                          emptyArr.push(newObject);
+                          setFavCharacters(emptyArr);
+                        } else {
+                          let emptyArr = [...favCharacters];
+                          emptyArr.push(newObject);
+                          setFavCharacters(emptyArr);
+                        }
+                      }}
+                    >
+                      Add to favorites<span>⭐️</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </>
+          ) : (
+            <>
+              {data.map((x, index) => {
+                return (
+                  <div key={x._id}>
+                    <h2>{x.name}</h2>
+                    <img
+                      src={x.thumbnail.path + "." + x.thumbnail.extension}
+                      alt=""
+                    />
+                    <p>{x.description}</p>
+                    <div onClick={() => history.push(`characters${x._id}`)}>
+                      Click for more ✚
+                    </div>
+                    <div
+                      onClick={() => {
+                        let newObject = {
+                          title: x.name,
+                          image: x.thumbnail.path + "." + x.thumbnail.extension,
+                        };
+                        if (favCharacters.length === 0) {
+                          let emptyArr = [];
+                          emptyArr.push(newObject);
+                          setFavCharacters(emptyArr);
+                        } else {
+                          let emptyArr = [...favCharacters];
+                          emptyArr.push(newObject);
+                          setFavCharacters(emptyArr);
+                        }
+                      }}
+                    >
+                      Add to favorites<span>⭐️</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </>
+          )}
+
+          {search.length > 0 ? null : (
+            <>
+              {currentPage === 0 ? (
+                <button onClick={getPreviousPage} disabled>
+                  Previous Page
+                </button>
+              ) : (
+                <button onClick={getPreviousPage}>Previous Page</button>
+              )}
+              {currentPage}
+              {currentPage === 14 ? (
+                <button onClick={getNextPage} disabled>
+                  Next Page
+                </button>
+              ) : (
+                <button onClick={getNextPage}>Next Page</button>
+              )}
+            </>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Characters;
