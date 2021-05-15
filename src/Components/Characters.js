@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
-const Characters = ({ setCookie }) => {
+const Characters = () => {
   const [data, setData] = useState();
   //some state for react-ReactPaginate
   const [favCharacters, setFavCharacters] = useState([]);
@@ -66,7 +66,30 @@ const Characters = ({ setCookie }) => {
   }, [currentPage]);
 
   useEffect(() => {
-    localStorage.setItem("favoriteCharacters", JSON.stringify(favCharacters));
+    if (localStorage.getItem("favoriteCharacters") === null) {
+      localStorage.setItem("favoriteCharacters", JSON.stringify(favCharacters));
+    } else {
+      let favStoredCharacters = JSON.parse(
+        localStorage.getItem("favoriteCharacters")
+      );
+
+      let copy = [];
+
+      for (let i = 0; i < favStoredCharacters.length; i++) {
+        copy.push(favStoredCharacters[i]);
+      }
+      for (let i = 0; i < favCharacters.length; i++) {
+        copy.push(favCharacters[i]);
+      }
+      const seen = new Set();
+      let o = copy.filter((el) => {
+        const duplicate = seen.has(el.title);
+        seen.add(el.title);
+        return !duplicate;
+      });
+
+      localStorage.setItem("favoriteCharacters", JSON.stringify(o));
+    }
   }, [favCharacters]);
 
   return (
@@ -83,7 +106,6 @@ const Characters = ({ setCookie }) => {
               setSearch(event.target.value);
               let newArr = [];
               for (let x = 0; x < data.length; x++) {
-                // console.log(data[x].name);
                 if (data[x].name.toLowerCase().includes(search.toLowerCase())) {
                   newArr.push(data[x]);
                 }
@@ -119,7 +141,6 @@ const Characters = ({ setCookie }) => {
             </>
           )}
           <h1> Marvel App</h1>
-          {console.log(data)}
 
           {search.length > 0 ? (
             <>

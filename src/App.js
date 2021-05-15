@@ -1,8 +1,5 @@
 import "./App.css";
-import { useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-
-import Cookies from "js-cookie";
 
 //import different components
 import Characters from "./Components/Characters";
@@ -13,7 +10,6 @@ import Home from "./Components/Home";
 import CardCharacter from "./Components/CardCaracter";
 
 const App = () => {
-  const [cookie, setCookie] = useState(Cookies.get("marvel"));
   return (
     <Router>
       <MenuBar />
@@ -23,16 +19,16 @@ const App = () => {
             <Home />
           </Route>
           <Route path="/characters">
-            <Characters setCookie={setCookie} cookies={cookie} />
+            <Characters />
           </Route>
           <Route path="/comics">
-            <Comics setCookie={setCookie} cookies={cookie} />
+            <Comics />
           </Route>
           <Route path="/characters:id">
             <CardCharacter />
           </Route>
           <Route path="/favorites">
-            <Favorites cookies={cookie} setCookie={setCookie} />
+            <Favorites />
           </Route>
         </Switch>
       </div>

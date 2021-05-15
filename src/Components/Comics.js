@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const Comics = ({ setCookie, cookies }) => {
+const Comics = () => {
   const [data, setData] = useState();
   //some state for react-ReactPaginate
 
@@ -58,7 +58,27 @@ const Comics = ({ setCookie, cookies }) => {
       });
   }, [currentPage]);
   useEffect(() => {
-    localStorage.setItem("favoriteComics", JSON.stringify(favComics));
+    if (localStorage.getItem("favoriteComics") === null) {
+      localStorage.setItem("favoriteComics", JSON.stringify(favComics));
+    } else {
+      let favStoredComics = JSON.parse(localStorage.getItem("favoriteComics"));
+      let copy = [];
+
+      for (let i = 0; i < favStoredComics.length; i++) {
+        copy.push(favStoredComics[i]);
+      }
+
+      for (let i = 0; i < favComics.length; i++) {
+        copy.push(favComics[i]);
+      }
+      const seen = new Set();
+      let o = copy.filter((el) => {
+        const duplicate = seen.has(el.title);
+        seen.add(el.title);
+        return !duplicate;
+      });
+      localStorage.setItem("favoriteComics", JSON.stringify(o));
+    }
   }, [favComics]);
   return (
     <div>

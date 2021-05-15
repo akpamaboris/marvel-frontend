@@ -1,4 +1,4 @@
-const Favorites = ({ cookie }) => {
+const Favorites = () => {
   const localData = localStorage.getItem("favoriteComics");
   console.log(JSON.parse(localData));
   const favComics = JSON.parse(localData);
@@ -13,6 +13,7 @@ const Favorites = ({ cookie }) => {
         ? favComics.map((x, index) => {
             return (
               <div key={index}>
+                {console.log(favComics)}
                 <h2>{x.title}</h2>
                 <img src={x.image} alt=" fav collection of the user" />
               </div>
