@@ -12,10 +12,14 @@ const Register = () => {
           e.preventDefault();
           try {
             axios
-              .post("https://marvel-backend-z.herokuapp.com/register", {
-                email: email,
-                password: password,
-              })
+              .post(
+                "https://marvel-backend-z.herokuapp.com/register",
+
+                {
+                  email: email,
+                  password: password,
+                }
+              )
               .then((resp) => {
                 // console.log(resp.data);
                 console.log("user connected");
