@@ -1,5 +1,7 @@
 import "./App.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Cookies from "js-cookie";
+import { useState } from "react";
 
 //import different components
 import Characters from "./Components/Characters";
@@ -10,11 +12,14 @@ import Home from "./Components/Home";
 import CardCharacter from "./Components/CardCaracter";
 import Register from "./Components/Register";
 import Login from "./Components/Login";
+import Logout from "./Components/Logout";
 
 const App = () => {
+  const [userToken] = useState(Cookies.get("marvelAuth"));
+
   return (
     <Router>
-      <MenuBar />
+      <MenuBar userToken={userToken} />
       <div>
         <Switch>
           <Route path="/" exact>
@@ -32,8 +37,14 @@ const App = () => {
           <Route path="/favorites">
             <Favorites />
           </Route>
+          <Route path="/logout">
+            <Logout userToken={userToken} />
+          </Route>
           <Route path="/login">
-            <Login />
+            <Login userToken={userToken} />
+          </Route>
+          <Route path="/logout">
+            <Logout />
           </Route>
           <Route path="/register">
             <Register />
