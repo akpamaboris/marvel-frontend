@@ -138,6 +138,11 @@ const Comics = ({ setCookie, cookies }) => {
   const [search, setSearch] = useState("");
   const [dataSearch, setDataSearch] = useState();
 
+  // _--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--
+  //auto search
+  // _--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--
+  const [searchState, setSearchState] = useState(false);
+
   const getNextPage = async () => {
     setIsLoading(true);
     setCurrentPage((prevState) => prevState + 1);
@@ -189,6 +194,8 @@ const Comics = ({ setCookie, cookies }) => {
         <div>
           <input
             type="text"
+            placeholder="Type to search "
+            value={search}
             onChange={(event) => {
               setSearch(event.target.value);
               let newArr = [];
@@ -202,7 +209,34 @@ const Comics = ({ setCookie, cookies }) => {
               }
               setDataSearch(newArr);
             }}
+            onClick={() => {
+              setSearchState(!searchState);
+            }}
           />
+          {searchState && dataSearch ? (
+            <div>
+              <h2>Ready to search</h2>
+              {dataSearch.map((x, index) => {
+                return (
+                  <div
+                    onClick={() => {
+                      setSearch(x.title);
+                    }}
+                  >
+                    {x.title}
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <>
+              <br />
+              <span>
+                Une fois ta recherche lancée, Clique dans la barre de recherche
+                pour afficher / Cacher les suggestions
+              </span>
+            </>
+          )}
           <h1> Marvel App</h1>
           {search.length > 0 ? (
             <>
@@ -310,6 +344,11 @@ const Characters = ({ setCookie }) => {
   const [currentPage, setCurrentPage] = useState(0);
   let history = useHistory();
 
+  // _--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--
+  //auto search
+  // _--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--
+  const [searchState, setSearchState] = useState(false);
+
   const getNextPage = async () => {
     setIsLoading(true);
     setCurrentPage((prevState) => prevState + 1);
@@ -367,7 +406,9 @@ const Characters = ({ setCookie }) => {
       ) : (
         <div>
           <input
+            placeholder="type to search"
             type="text"
+            value={search}
             onChange={(event) => {
               setSearch(event.target.value);
               let newArr = [];
@@ -379,7 +420,34 @@ const Characters = ({ setCookie }) => {
               }
               setDataSearch(newArr);
             }}
+            onClick={() => {
+              setSearchState(!searchState);
+            }}
           />
+          {searchState && dataSearch ? (
+            <div>
+              <h2>Ready to search</h2>
+              {dataSearch.map((x, index) => {
+                return (
+                  <div
+                    onClick={() => {
+                      setSearch(x.name);
+                    }}
+                  >
+                    {x.name}
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <>
+              <br />
+              <span>
+                Une fois ta recherche lancée, Clique dans la barre de recherche
+                pour afficher / Cacher les suggestions
+              </span>
+            </>
+          )}
           <h1> Marvel App</h1>
           {console.log(data)}
 
