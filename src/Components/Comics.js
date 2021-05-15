@@ -60,7 +60,9 @@ const Comics = () => {
   useEffect(() => {
     if (localStorage.getItem("favoriteComics") === null) {
       localStorage.setItem("favoriteComics", JSON.stringify(favComics));
+      console.log("local storage created");
     } else {
+      console.log("adding a new comics to local storage");
       let favStoredComics = JSON.parse(localStorage.getItem("favoriteComics"));
       let copy = [];
 
@@ -78,6 +80,7 @@ const Comics = () => {
         return !duplicate;
       });
       localStorage.setItem("favoriteComics", JSON.stringify(o));
+      console.log(o);
     }
   }, [favComics]);
   return (
