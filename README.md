@@ -7,7 +7,7 @@ The project is live here ==> https://inspiring-bhabha-85faa4.netlify.app/
 ![Alt Text](https://media.giphy.com/media/4z4jOuyXcXEEhzh0bj/giphy.gif)
 
 This is a fullstack project :
-Link to the backend here
+Link to the backend repo here: https://github.com/zeliwipin/marvel-backend
 
 
 
