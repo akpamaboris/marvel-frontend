@@ -4,16 +4,12 @@
 The project is live here ==> https://inspiring-bhabha-85faa4.netlify.app/ 
 
 
-![Alt Text](https://media.giphy.com/media/4z4jOuyXcXEEhzh0bj/giphy.gif)
+![Alt Text](https://media.giphy.com/media/fyAzV2JMe41mpvNKCc/giphy.gif)
 
-This is a fullstack project :
-Link to the backend repo here: https://github.com/zeliwipin/marvel-backend
 
 
 
 ## Installation
-
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
 
 ```
 git clone https://github.com/zeliwipin/marvel-frontend
