@@ -1,15 +1,15 @@
 # Viewing the live project
 
 
-The project is live here ==> https://inspiring-bhabha-85faa4.netlify.app/ 
+The project is live here ==> https://quizzical-elion-e282e6.netlify.app/
 
 
-![Alt Text](https://media.giphy.com/media/fyAzV2JMe41mpvNKCc/giphy.gif)
-
+![Alt Text](https://media.giphy.com/media/4z4jOuyXcXEEhzh0bj/giphy.gif)
 
 
 
 ## Installation
+
 
 ```
 git clone https://github.com/zeliwipin/marvel-frontend
